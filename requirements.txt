@@ -1,8 +1,9 @@
 fastapi
 uvicorn
+sqlalchemy
 jinja2
 weasyprint
-sqlalchemy
-python-dotenv
+pydantic
 httpx
-fpdf2
+python-dotenv
+aiofiles

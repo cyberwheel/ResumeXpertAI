@@ -1,0 +1,232 @@
+<!-- frontend/builder.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Resume Builder | ResumeXpert</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="logo"><h1>Resume<span class="highlight">Xpert</span></h1></div>
+  </header>
+
+  <main class="builder-page">
+    <div class="builder-header">
+      <h2>Build Your Professional Resume</h2>
+      <p>Fill your details, preview live, and download a polished PDF.</p>
+    </div>
+
+    <div class="builder">
+      <div id="formContainer" class="form-container" role="region" aria-label="Resume form">
+        <!-- form will be injected by app.js -->
+      </div>
+
+      <aside id="previewContainer" class="preview-container" role="region" aria-label="Live preview">
+        <div class="preview-header">
+          <h3 id="template-name">Live Resume Preview</h3>
+          <p class="preview-sub"></p>
+        </div>
+        <div class="preview-frame-wrap">
+          <iframe id="previewFrame" class="preview-frame"></iframe>
+        </div>
+
+       <!-- <div style="padding:12px;">
+          <button id="fillSampleBtn">Fill Sample Data</button>
+          <button id="generateAiBtn">Generate with AI</button>
+          <button id="enhanceAiBtn">Enhance with AI</button>
+          <button id="downloadBtn">Download PDF</button>
+
+        -->
+        </div>
+      </aside>
+    </div>
+  </main>
+<style>
+
+/* frontend/static/styles.css */
+
+/* --- Layout --- */
+body {
+  font-family: 'Inter', 'Poppins', sans-serif;
+  background: #fdfbf6;
+  color: #111;
+  margin: 0;
+  padding: 0;
+}
+
+.builder-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 20px;
+}
+
+.builder {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+/* Resume Form Styles */
+.form-container {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+}
+
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.form-container h3 {
+  margin-top: 20px;
+  color: #0f172a;
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 4px;
+}
+
+.ai-btns {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.ai-btns button {
+  flex: 1;
+  background: #0f172a;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ai-btns button:hover {
+  background: #d4af37;
+  color: #0f172a;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.actions .cta.secondary {
+  background: #d4af37;
+  color: #0f172a;
+}
+
+.form-container {
+  flex: 1 1 50%;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.preview-container {
+  flex: 1 1 45%;
+  background: #fffdf7;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preview-header {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  text-align: center;
+}
+
+.preview-frame-wrap {
+  flex: 1;
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+}
+
+.preview-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white;
+}
+
+/* --- Buttons --- */
+button {
+  background: linear-gradient(90deg, #d4af37, #b9972d);
+  border: none;
+  color: #111;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+button:hover { transform: scale(1.03); background: #b9972d; }
+
+#fillSampleBtn, #generateAiBtn, #enhanceAiBtn, #downloadBtn {
+  margin: 5px 4px;
+}
+
+/* --- Form --- */
+label {
+  display: block;
+  font-weight: 600;
+  margin-top: 10px;
+}
+input, textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 4px;
+  font-family: inherit;
+}
+textarea { resize: vertical; min-height: 60px; }
+
+/* --- PDF styling preview friendly --- */
+@media print {
+  .builder, .builder-header { display: none; }
+  body { background: white; }
+}
+
+
+</style>
+<a href="/" class="back-home-btn">⬅ Back to Home</a>
+
+<style>
+.back-home-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #d4af37;
+  color: #0f172a;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.back-home-btn:hover {
+  background: #b9972d;
+}
+</style>
+
+</body>
+</html>

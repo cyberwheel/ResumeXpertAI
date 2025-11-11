@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResumeXpert –  Resume Builder</title>
+  <link rel="stylesheet" href="static/styles.css">
+
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <h1>Resume<span class="highlight">Xpert</span> </h1>
+    </div>
+    <div class="menu-toggle" id="menuToggle">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+    <nav class="nav">
+      <a href="#features">Features</a>
+      <a href="#how">How It Works</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>🎓 Build Your Perfect Resume</h2>
+      <p>Smart, ATS-friendly, and powered by AI — built exclusively for JBREC students.</p>
+      <button class="cta" id="startBtn">Start Building</button>
+    </div>
+  </section>
+
+  <!-- Template Section -->
+  <main  id="mainContainer">
+    <section  id="templatesSection" class="templates-section" style="display:none;">
+      <div style="text-align: center;padding: 4px;">  
+      <h2>Choose Your Template</h2>
+      <p>Select a design below to start customizing your resume.</p>
+      <div id="templates"  class="templates-grid" style="padding: 18px;"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Features -->
+  <section id="features" class="features">
+    <h2>Why ResumeXpert ?</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <h3>🤖 AI-Powered</h3>
+        <p>Generate, enhance, and optimize your resume content with GPT technology.</p>
+      </div>
+      <div class="feature">
+        <h3>🎯 ATS-Friendly</h3>
+        <p>Automatically includes Data Science keywords to pass recruiter filters.</p>
+      </div>
+      <div class="feature">
+        <h3>📄 Modern Templates</h3>
+        <p>Clean, professional designs tailored for students and freshers.</p>
+      </div>
+      <div class="feature">
+        <h3>⚡ Fast & Simple</h3>
+        <p>Fill your info, preview instantly, and download your resume in seconds.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how" class="how-it-works">
+    <h2>How It Works</h2>
+    <ol>
+      <li>Click <b>Start Building</b> to begin.</li>
+      <li>Fill in your education, experience, and skills.</li>
+      <li>Use AI to generate or enhance your summary instantly.</li>
+      <li>Preview your resume live and download it as a professional PDF.</li>
+    </ol>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="about">
+    <h2>About ResumeXpert </h2>
+    <p>
+      ResumeXpert is developed exclusively for the <b>Data Science Department of JBREC</b> by CyberWheel.
+      It simplifies resume building using AI — creating well-structured, ATS-optimized resumes for students who want to stand out in their careers.
+    </p>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <p></p>
+    <p>📧cyberwheel.dev@gmail.com</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>  CyberWheel | Crafted with 💛 </p>
+  </footer>
+
+  <!-- JS to Reveal Templates -->
+  <script>
+const BASE_URL = window.location.origin + "/api";
+
+// Helper to call backend API
+async function api(endpoint, options = {}) {
+  const res = await fetch(`${BASE_URL}${endpoint}`, {
+    headers: { "Content-Type": "application/json" },
+    ...options,
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+// Start Building button logic
+document.getElementById("startBtn").addEventListener("click", async () => {
+  const tempSection = document.getElementById("templatesSection");
+  const container = document.getElementById("templates");
+  tempSection.style.display = "block";
+  tempSection.scrollIntoView({ behavior: "smooth" });
+
+  // Clear any old templates
+  container.innerHTML = "<p>Loading templates...</p>";
+
+  try {
+    const templates = await api("/templates");
+    container.innerHTML = "";
+
+    if (templates.length === 0) {
+      container.innerHTML = "<p>No templates available.</p>";
+      return;
+    }
+
+    templates.forEach((tpl) => {
+      const card = document.createElement("div");
+      card.classList.add("template-card");
+      card.innerHTML = `
+        <h3>${tpl.name}</h3>
+        <p>${tpl.description}</p>
+        <button onclick="useTemplate(${tpl.id})">Use Template</button>
+      `;
+      container.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Error loading templates:", err);
+    container.innerHTML = "<p style='color:red;'>Failed to load templates.</p>";
+  }
+});
+
+// Redirect to builder page
+function useTemplate(id) {
+  window.location.href = "builder.html?template_id=" + id;
+}
+</script>
+
+  <!-- Global loading overlay -->
+<div id="loadingOverlay">
+  <div class="loader">
+    <div class="spinner"></div>
+    <p>🤖 Generating with AI... Please wait</p>
+  </div>
+</div>
+<style>
+    /* =========================
+   🌟 GLOBAL STYLES
+========================= */
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", "Poppins", "Segoe UI", Arial, sans-serif;
+  background: #fbfaf7;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  color: #0b1220;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* =========================
+   🌟 HEADER / NAVBAR
+========================= */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0f1724;
+  color: white;
+  padding: 14px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(2,6,23,0.35);
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #f8fafc;
+}
+.logo .highlight {
+  color: #d4af37;
+  font-weight: 800;
+  margin-left: 4px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nav a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+.nav a:hover {
+  color: #fff;
+}
+
+/* Hamburger menu (mobile) */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+}
+.menu-toggle div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 3px 0;
+  border-radius: 2px;
+}
+
+/* Hide nav on mobile by default */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #0f1724;
+    border-radius: 8px;
+    padding: 10px 15px;
+  }
+  .nav.active {
+    display: flex;
+  }
+  .menu-toggle {
+    display: flex;
+  }
+}
+
+/* =========================
+   🌟 HERO SECTION
+========================= */
+.hero {
+  background: linear-gradient(90deg, #fff9e6, #fffdf5);
+  text-align: center;
+  padding: 100px 20px 70px;
+  color: #111;
+}
+
+.hero-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hero h2 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.hero p {
+  margin-top: 12px;
+  font-size: 1.1rem;
+  color: #475569;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 26px;
+  padding: 12px 28px;
+  background: linear-gradient(90deg, #d4af37, #b9972d);
+  color: #0f172a;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.cta:hover {
+  background: #b9972d;
+  transform: scale(1.05);
+}
+
+/* =========================
+   🌟 FEATURES SECTION
+========================= */
+.features {
+  background: #fff;
+  padding: 80px 20px;
+  text-align: center;
+}
+.features h2 {
+  font-size: 2rem;
+  color: #0f172a;
+}
+.features-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  max-width: 1000px;
+  margin-inline: auto;
+}
+.feature {
+  background: #fffef8;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+.feature h3 {
+  color: #b9972d;
+  margin-bottom: 10px;
+}
+.feature p {
+  color: #444;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* =========================
+   🌟 HOW IT WORKS
+========================= */
+.how-it-works {
+  padding: 80px 20px;
+  background: #faf9f6;
+  text-align: center;
+}
+.how-it-works h2 {
+  font-size: 2rem;
+}
+.how-it-works ol {
+  list-style: decimal;
+  text-align: left;
+  max-width: 600px;
+  margin: 30px auto;
+  color: #444;
+  line-height: 1.8;
+}
+
+/* =========================
+   🌟 ABOUT & CONTACT
+========================= */
+.about, .contact {
+  padding: 80px 20px;
+  text-align: center;
+}
+.about p {
+  max-width: 800px;
+  margin: 0 auto;
+  color: #444;
+  line-height: 1.7;
+}
+
+.contact {
+  background: #f5e7c2;
+}
+.contact p {
+  margin: 8px 0;
+  color: #333;
+  font-size: 1.05rem;
+}
+
+/* =========================
+   🌟 FOOTER
+========================= */
+.footer {
+  background: #0f1724;
+  color: #ccc;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9em;
+}
+
+/* =========================
+   🌟 RESPONSIVE ADJUSTMENTS
+========================= */
+@media (max-width: 768px) {
+  .hero {
+    padding: 70px 15px;
+  }
+  .hero h2 {
+    font-size: 1.9rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta {
+    width: 100%;
+    padding: 12px;
+  }
+}
+.template-card {
+    background: #fffef9;
+    border: 1px solid #e5e7eb;
+    padding: 17px;
+    border-radius: 25px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+    margin: 10px;
+}
+.template-card:hover {
+  transform: translateY(-3px);
+}
+.template-card button {
+  background: #b9972d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.template-card button:hover {
+  background: #a6861f;
+}
+
+
+</style>
+</body>
+</html>

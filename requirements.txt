@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+jinja2
+weasyprint
+sqlalchemy
+python-dotenv
+httpx
+fpdf2

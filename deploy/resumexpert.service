@@ -1,0 +1,13 @@
+[Unit]
+Description=ResumeXpert API
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/var/www/resume-xpert
+Environment="PATH=/var/www/resume-xpert/venv/bin"
+ExecStart=/var/www/resume-xpert/venv/bin/gunicorn -w 2 -k uvicorn.workers.UvicornWorker backend.app.main:app -b 127.0.0.1:8000
+
+[Install]
+WantedBy=multi-user.target

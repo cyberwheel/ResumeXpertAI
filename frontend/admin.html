@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel | ResumeXpert</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #fdfcf7;
+      color: #111827;
+      margin: 0;
+      padding: 0;
+    }
+    .admin-container {
+      max-width: 600px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      padding: 30px 40px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #0f1724;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      text-align: left;
+    }
+    input, button {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+      width: 100%;
+    }
+    input:focus {
+      outline: none;
+      border-color: #d4af37;
+      box-shadow: 0 0 0 2px rgba(212,175,55,0.2);
+    }
+    label {
+      font-weight: 600;
+      color: #333;
+    }
+    button {
+      background: linear-gradient(90deg,#d4af37,#b9972d);
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      transform: scale(1.03);
+      background: #b9972d;
+    }
+    .msg {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #0f172a;
+    }
+    .back-home {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      color: #0f172a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back-home:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h1>Admin — Upload New Template</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <label>🔑 Admin Password</label>
+      <input type="password" name="password" placeholder="Enter password" required />
+
+      <label>📝 Template Name</label>
+      <input type="text" name="name" placeholder="Template Name" required />
+
+      <label>📄 Description</label>
+      <input type="text" name="description" placeholder="Description (optional)" />
+
+      <label>HTML File</label>
+      <input type="file" name="html_file" accept=".html" required />
+
+      <label>CSS File</label>
+      <input type="file" name="css_file" accept=".css" />
+
+      <button type="submit">⬆️ Upload Template</button>
+    </form>
+    <div id="msg" class="msg"></div>
+    <a href="/" class="back-home">⬅ Back to Home</a>
+  </div>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      const res = await fetch("/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const msg = document.getElementById("msg");
+      if (res.ok) {
+        msg.innerHTML = "✅ Template uploaded successfully!";
+        msg.style.color = "green";
+        e.target.reset();
+      } else {
+        msg.innerHTML = "❌ Upload failed. Check password or server logs.";
+        msg.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

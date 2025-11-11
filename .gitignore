@@ -1,0 +1,24 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+*.db
+uploads/
+generated_pdfs/
+pdfs/
+.cache/
+
+# --- Node / Frontend ---
+node_modules/
+dist/
+frontend/static/*.map
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log

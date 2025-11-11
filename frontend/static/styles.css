@@ -1,0 +1,579 @@
+/* =========================================
+   1. THEME & GLOBAL SETUP (CSS VARIABLES)
+   ========================================= */
+:root {
+  /* Colors */
+  --color-primary-dark: #0b1220;
+  --color-primary-med: #0f1724;
+  --color-primary-light: #475569;
+
+  --color-accent: #d4af37;
+  --color-accent-dark: #b9972d;
+  
+  --color-text-light: #f8fafc;
+  --color-text-med: #cbd5e1;
+  --color-text-dark: #111827;
+  
+  --color-bg: #fbfaf7;
+  --color-surface: #ffffff;
+  --color-border: #e6edf3;
+  --color-border-focus: rgba(212, 175, 55, 0.9);
+
+  /* Typography */
+  --font-primary: "Inter", "Poppins", "Segoe UI", Arial, sans-serif;
+  --font-base-size: 1rem; /* 16px */
+  --font-sm: 0.9rem;
+  --font-md: 1.0rem;
+  --font-lg: 1.25rem;
+  --font-xl: 1.8rem;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 18px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+
+  /* Radius & Shadows */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 999px;
+  
+  --shadow-sm: 0 2px 4px rgba(2, 6, 23, 0.04);
+  --shadow-md: 0 4px 10px rgba(2, 6, 23, 0.06);
+  --shadow-lg: 0 10px 30px rgba(2, 6, 23, 0.08);
+  --shadow-accent: 0 10px 24px rgba(169, 130, 48, 0.12);
+  --shadow-header: 0 2px 10px rgba(2, 6, 23, 0.35);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-std: 0.25s ease-in-out;
+}
+
+/* =========================================
+   2. GLOBAL / BASE STYLES
+   ========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: var(--font-base-size);
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--color-bg);
+  color: var(--color-text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Adding transitions to key interactive elements */
+a,
+button,
+input,
+textarea {
+  transition: all var(--transition-fast);
+}
+
+/* =========================================
+   3. HEADER & NAVIGATION
+   ========================================= */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-primary-med);
+  color: var(--color-text-light);
+  padding: var(--spacing-md) var(--spacing-lg);
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  box-shadow: var(--shadow-header);
+}
+
+.logo h1 {
+  font-size: var(--font-lg);
+  color: var(--color-text-light);
+}
+
+.logo .highlight {
+  color: var(--color-accent);
+  font-weight: 800;
+  margin-left: var(--spacing-xs);
+}
+
+.nav {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.nav a {
+  color: var(--color-text-med);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: var(--font-sm);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.nav a:hover {
+  color: var(--color-text-light);
+  transform: translateY(-2px); /* More subtle */
+}
+
+/* --- Hamburger Menu --- */
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  padding: var(--spacing-sm); /* Easier to tap */
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.menu-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-toggle div {
+  width: 26px;
+  height: 3px;
+  background: var(--color-text-light);
+  margin: 4px 0; /* Slightly more spacing */
+  border-radius: 3px;
+  transition: all var(--transition-std);
+}
+
+/* =========================================
+   4. BUILDER PAGE LAYOUT
+   ========================================= */
+.builder-page {
+  padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-xxl);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.builder-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl); /* More breathing room */
+}
+
+.builder-header h2 {
+  font-size: var(--font-xl);
+  color: var(--color-primary-dark);
+}
+
+.builder-header p {
+  margin-top: var(--spacing-sm);
+  color: var(--color-primary-light);
+  font-size: var(--font-md);
+}
+
+/* --- Builder Columns --- */
+.builder {
+  display: flex;
+  gap: var(--spacing-xl);
+  align-items: flex-start;
+}
+
+.form-container,
+.preview-container {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-lg);
+}
+
+.form-container {
+  width: 62%;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto; /* Explicitly Y */
+}
+
+.preview-container {
+  width: 38%;
+  position: sticky;
+  top: 84px; /* Adjust based on header height + margin */
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  border-left: 6px solid var(--color-accent);
+}
+
+.preview-frame {
+  width: 100%;
+  min-height: 640px;
+  border: none;
+  background: var(--color-surface);
+}
+
+/* =========================================
+   5. FORM STYLES
+   ========================================= */
+.form-card {
+  background: linear-gradient(180deg, #ffffff, #fdfdfd); /* Kept subtle gradient */
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-std), box-shadow var(--transition-std);
+}
+
+/* Eye-catching hover for cards */
+.form-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.form-card .row {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.form-card .icon {
+  flex-shrink: 0; /* Prevents icon from shrinking */
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #fffaf0, #fff7e6);
+  color: var(--color-accent-dark);
+  font-weight: 700;
+  margin-right: var(--spacing-sm);
+  box-shadow: 0 6px 14px rgba(169, 130, 48, 0.06);
+}
+
+.form-card h3 {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: var(--font-md);
+  color: var(--color-primary-dark);
+}
+
+/* --- Inputs & Textareas --- */
+label {
+  display: block;
+  font-weight: 700;
+  margin-top: var(--spacing-md);
+  color: var(--color-text-dark);
+  font-size: var(--font-sm);
+  margin-bottom: var(--spacing-sm); /* Added for better spacing */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: var(--font-sm);
+  color: var(--color-text-dark);
+  /* transition is in global */
+}
+
+textarea {
+  min-height: 84px;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15); /* More visible focus */
+}
+
+/* =========================================
+   6. ACTIONS & BUTTONS
+   ========================================= */
+.actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-weight: 700;
+  font-size: var(--font-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+}
+
+button.primary {
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dark));
+  color: var(--color-primary-dark);
+  box-shadow: var(--shadow-accent);
+}
+
+button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(169, 130, 48, 0.18); /* Stronger shadow on hover */
+  filter: brightness(1.05);
+}
+
+button.primary:active {
+  transform: translateY(-1px);
+  filter: brightness(1);
+}
+
+button.ghost {
+  background: #f5f8fb;
+  color: var(--color-primary-dark);
+  border: 1px solid #e6eef7;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+button.ghost:hover {
+  background-color: #eef2f6;
+  transform: translateY(-2px);
+}
+
+button.small {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 0.85rem; /* Slightly smaller */
+}
+
+/* =========================================
+   7. PREVIEW & UTILITIES
+   ========================================= */
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.preview-sub {
+  color: var(--color-primary-light);
+  font-size: var(--font-sm);
+}
+
+/* --- Loader Overlay --- */
+#loadingOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.65); /* Slightly darker */
+  z-index: 2200;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px); /* Eye-catching blur */
+}
+
+#loadingOverlay.active {
+  display: flex;
+}
+
+.loader {
+  text-align: center;
+  color: var(--color-text-light);
+}
+
+.spinner {
+  width: 62px;
+  height: 62px;
+  border-radius: var(--radius-full);
+  border: 8px solid rgba(255, 255, 255, 0.12);
+  border-top-color: var(--color-accent);
+  animation: spin 1s linear infinite;
+  margin: 0 auto var(--spacing-md); /* Added margin */
+}
+
+/* --- Floating Back Button --- */
+.back-btn {
+  position: fixed;
+  right: var(--spacing-lg);
+  bottom: var(--spacing-lg);
+  z-index: 2100;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dark));
+  color: var(--color-primary-dark);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: var(--shadow-accent);
+  transition: transform var(--transition-std), box-shadow var(--transition-std);
+}
+
+.back-btn:hover {
+  transform: translateY(-3px) scale(1.05); /* Make it pop */
+  box-shadow: 0 12px 28px rgba(169, 130, 48, 0.18);
+}
+
+/* =========================================
+   8. RESPONSIVE ADJUSTMENTS
+   ========================================= */
+@media (max-width: 1024px) {
+  .builder {
+    flex-direction: column;
+  }
+
+  .form-container,
+  .preview-container {
+    width: 100%;
+    max-height: none;
+    position: relative;
+    top: auto;
+  }
+  
+  .preview-container {
+    /* We don't want this sticky on mobile */
+    position: relative; 
+    top: auto;
+  }
+
+  .preview-frame {
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* --- Mobile Navigation --- */
+  .nav {
+    display: none;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg);
+    position: absolute;
+    top: 64px; /* Header height + spacing */
+    right: var(--spacing-lg);
+    background: var(--color-primary-med);
+    border-radius: var(--radius-md);
+    border: 1px solid #1f2937;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .nav.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block; /* Use block, not flex */
+  }
+
+  /* --- Other Mobile Adjustments --- */
+  .builder-page {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+  
+  .back-btn {
+    right: var(--spacing-md);
+    bottom: var(--spacing-md);
+  }
+  
+  .builder-header h2 {
+    font-size: 1.6rem;
+  }
+  
+  .form-card .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* =========================================
+   9. KEYFRAMES
+   ========================================= */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* =========================
+   🌟 LOADING OVERLAY
+========================= */
+#loadingOverlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.45);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#loadingOverlay.active {
+  display: flex;
+}
+
+#loadingOverlay p {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-top: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #d4af37;
+  border-radius: 50%;
+  width: 60px; height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* ===============================
+   🤖 AI Loader Overlay
+   =============================== */
+#aiOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  flex-direction: column;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+.ai-loader .spinner {
+  width: 55px;
+  height: 55px;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #4fc3f7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#aiOverlay p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
